@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libMODEL_GBM.so -o ../../lib/libMODEL_GBM.so CMakeFiles/MODEL_GBM_SHARED.dir/LightGBMPredict.cc.o  -Wl,-rpath,/usr/local/lib: /usr/local/lib/lib_lightgbm.so 

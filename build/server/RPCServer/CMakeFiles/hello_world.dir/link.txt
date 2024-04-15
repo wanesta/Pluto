@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libhello_world.a CMakeFiles/hello_world.dir/__/__/proto-src/helloworld.pb.cc.o CMakeFiles/hello_world.dir/__/__/proto-src/helloworld.grpc.pb.cc.o
-/usr/bin/ranlib ../../lib/libhello_world.a

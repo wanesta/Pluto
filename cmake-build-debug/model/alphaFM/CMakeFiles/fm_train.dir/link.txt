@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/fm_train.dir/fm_train.cpp.o CMakeFiles/fm_train.dir/src/Utils/utils.cpp.o CMakeFiles/fm_train.dir/src/Frame/pc_frame.cpp.o -o ../../bin/model/alphaFM/fm_train  -lpthread 

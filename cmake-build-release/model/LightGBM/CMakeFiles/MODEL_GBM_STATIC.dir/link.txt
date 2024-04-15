@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libMODEL_GBM.a CMakeFiles/MODEL_GBM_STATIC.dir/LightGBMPredict.cc.o
-/usr/bin/ranlib ../../lib/libMODEL_GBM.a

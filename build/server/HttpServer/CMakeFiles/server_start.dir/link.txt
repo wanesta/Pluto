@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/server_start.dir/server_start.cc.o -o ../../bin/server_start   -L/usr/local/lib  -L/home/gaosm/Downloads/dev/Pluto/build/lib  -Wl,-rpath,/usr/local/lib:/home/gaosm/Downloads/dev/Pluto/build/lib -lwfrest -lULog -lMODEL_GBM 
