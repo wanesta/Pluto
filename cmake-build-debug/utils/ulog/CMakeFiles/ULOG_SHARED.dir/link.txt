@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libULog.so -o ../../lib/libULog.so CMakeFiles/ULOG_SHARED.dir/ULog.cc.o  -llog4cplus 

@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/fm_predict.dir/fm_predict.cpp.o CMakeFiles/fm_predict.dir/src/Utils/utils.cpp.o CMakeFiles/fm_predict.dir/src/Frame/pc_frame.cpp.o -o ../../bin/model/alphaFM/fm_predict  -lpthread 

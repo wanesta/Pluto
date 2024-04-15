@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gaosm/Downloads/dev/Pluto/utils/yamlParse/YamlParse.cc
+YamlParse.h
+/home/gaosm/Downloads/dev/Pluto/utils/yamlParse/YamlParse.h
+yaml-cpp/yaml.h
+-
+iostream
+-
+
+/home/gaosm/Downloads/dev/Pluto/utils/yamlParse/YamlParse.h
+

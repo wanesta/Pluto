@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libULog.a CMakeFiles/ULOG_STATIC.dir/ULog.cc.o
+/usr/bin/ranlib ../../lib/libULog.a

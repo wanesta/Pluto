@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+14f365d821a3829b3c1c9c0e68c5ea79 ../proto-src/helloworld.grpc.pb.cc
+0e6abddf524a9b7e73fe2e8e75d81ad7 ../proto-src/helloworld.pb.cc
