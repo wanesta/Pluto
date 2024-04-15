@@ -2,7 +2,7 @@
 // Created by root on 10/18/22.
 //
 #include "LightGBMPredict.h"
-#include ""
+
 using namespace std;
 LightGBMPredict::LightGBMPredict() {
 
