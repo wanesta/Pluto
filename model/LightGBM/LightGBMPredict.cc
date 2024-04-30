@@ -39,7 +39,7 @@ std::vector<double> LightGBMPredict::predictVec(std::vector<double> &row){
     double *out_result = static_cast<double *>(out.data());
     int64_t out_len;
     LGBM_BoosterPredictForMat(this->handle, in_p, C_API_DTYPE_FLOAT32, 1, 28, 1, C_API_PREDICT_NORMAL, 0, -1, "", &out_len, out_result);
-    std::cout << "out &&&&&                                 ---- ---------------- "<< std::endl;
+    std::cout << "out &&&&& -------------------- "<< std::endl;
     for(auto& r : out){
         std::cout << "out &&&&&" << r << std::endl;
     }

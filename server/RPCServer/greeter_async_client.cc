@@ -106,6 +106,7 @@ class GreeterClient {
   std::unique_ptr<Greeter::Stub> stub_;
 };
 
+
 int main(int argc, char** argv) {
   // Instantiate the client. It requires a channel, out of which the actual RPCs
   // are created. This channel models a connection to an endpoint (in this case,
