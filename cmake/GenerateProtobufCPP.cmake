@@ -73,3 +73,18 @@ function(GENERATE_PROTOBUF_CPP SRCS HDRS DEST)
     set(${SRCS} ${${SRCS}} PARENT_SCOPE)
     set(${HDRS} ${${HDRS}} PARENT_SCOPE)
 endfunction()
+
+
+function(DELETE_OLD_GRPC_PB PATH_FILES)
+    foreach(file ${PATH_FILES})
+        # 判断文件是否存在
+        if(EXISTS "${file}")
+            # 如果存在则删除文件
+            message("Deleting file: ${file}")
+            file(REMOVE "${file}")
+        else()
+            # 如果不存在则打印消息
+            message("File not found: ${file}")
+        endif()
+    endforeach()
+endfunction()
