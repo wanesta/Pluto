@@ -15,9 +15,9 @@ endif ()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_PATH}/bin)
 
-include_directories(${PROJECT_ROOT_PATH}/utils/ulog)
+include_directories(${PROJECT_ROOT_PATH}/utils/plog)
 include_directories(${PROJECT_ROOT_PATH}/model/LightGBM)
 link_directories(${PROJECT_BINARY_PATH}/lib)
 
 ADD_EXECUTABLE(server_start ${server_start})
-target_link_libraries(server_start ${WFREST_LIB} -lULog -lMODEL_GBM)
+target_link_libraries(server_start ${WFREST_LIB} -lPLog -lMODEL_GBM)

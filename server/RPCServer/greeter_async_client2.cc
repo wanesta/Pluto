@@ -23,6 +23,7 @@
 #include <grpc/support/log.h>
 #include <grpcpp/grpcpp.h>
 #include <thread>
+#include <random>
 
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
@@ -45,11 +46,12 @@ class GreeterClient {
       : stub_(Greeter::NewStub(channel)) {}
 
   // Assembles the client's payload and sends it to the server.
-  void SayHello(const std::string& user) {
+  void SayHello(const std::string& user, int num) {
     // Data we are sending to the server.
     HelloRequest request;
     request.set_name(user);
-
+    request.set_reqnum(num);
+    std::cout << "request number :" << num << std::endl;
     // Call object to store rpc data
     AsyncClientCall* call = new AsyncClientCall;
 
@@ -85,11 +87,13 @@ class GreeterClient {
       // corresponds solely to the request for updates introduced by Finish().
       GPR_ASSERT(ok);
 
-      if (call->status.ok())
-        std::cout << "Greeter received: " << call->reply.message() << std::endl;
-      else
-        std::cout << "RPC failed" << std::endl;
-
+      if (call->status.ok()) {
+          //std::cout << "Greeter received: " << call->reply.message() << std::endl;
+          std::cout << " Greeter received number : " << call->reply.repnum() << std::endl;
+      }
+      else {
+          std::cout << "RPC failed" << std::endl;
+      }
       // Once we're complete, deallocate the call object.
       delete call;
     }
@@ -131,9 +135,14 @@ int main(int argc, char** argv) {
   // Spawn reader thread that loops indefinitely
   std::thread thread_ = std::thread(&GreeterClient::AsyncCompleteRpc, &greeter);
 
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 300; i++) {
     std::string user("world " + std::to_string(i));
-    greeter.SayHello(user);  // The actual RPC call!
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1000, 5000);
+    int random_number = dist(gen);
+
+    greeter.SayHello(user, random_number);  // The actual RPC call!
   }
 
   std::cout << "Press control-c to quit" << std::endl << std::endl;

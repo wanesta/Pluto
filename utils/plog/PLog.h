@@ -11,6 +11,20 @@
 ///      [可以自定义不同格式]
 ///
 ///
+#include <iostream>
+#include <cstring>
+#include <stdio.h>
+#include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
+#include <log4cplus/consoleappender.h>
+#include <log4cplus/config.hxx>
+#include <log4cplus/logger.h>
+#include <log4cplus/configurator.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/socket.h>
+#include <log4cplus/spi/loggerimpl.h>
+#include <log4cplus/spi/loggingevent.h>
 
 #if defined(__linux__)
 #define VSPRINTF vsnprintf
@@ -18,11 +32,12 @@
 #define VSPRINTF _vsnprintf
 #endif
 
-class ULog
+
+class PLog
 {
 public:
-    ULog();
-    virtual ~ULog();
+    PLog();
+    virtual ~PLog();
 
     /// 启动日志系统
     /// @param[in] properties_filename 日志系统配置文件文件名
@@ -31,28 +46,32 @@ public:
 
 public:
     void Debug(const char* pFormat, ...);
-
     void Error(const char* pFormat, ...);
-
     void Fatal(const char* pFormat, ...);
-
     void Info(const char* pFormat, ...);
-
     void Warn(const char* pFormat, ...);
-
     void Trace(const char* pFormat, ...);
 
+    void Debug(const std::string &pFormat, ...);
+    void Error(const std::string &pFormat, ...);
+    void Fatal(const std::string &pFormat, ...);
+    void Info(const std::string &pFormat, ...);
+    void Warn(const std::string &pFormat, ...);
+    void Trace(const std::string &pFormat, ...);
+
+    std::string getTime(std::string& str);
+
 public:
-    static inline ULog* getSingletonPtr(){
+    static inline PLog* getSingletonPtr(){
         return &getSingleton();
     }
-    static inline ULog& getSingleton()
+    static inline PLog& getSingleton()
     {
-        static ULog _instance;
+        static PLog _instance;
         return _instance;
     }
 };
-#define Log ULog::getSingleton()
+#define Log PLog::getSingleton()
 #define Plog ULog::getSingleton()
 
 

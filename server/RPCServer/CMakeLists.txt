@@ -19,6 +19,8 @@ set(protofiles
 set(PROTO_SRC_DIR ${PROJECT_ROOT_PATH}/proto-src)
 file(MAKE_DIRECTORY ${PROTO_SRC_DIR})
 include_directories(${PROTO_SRC_DIR})
+include_directories(${PROJECT_ROOT_PATH}/utils/plog)
+
 file(GLOB PB_H_FILES "${PROTO_SRC_DIR}/*.pb.h")
 file(GLOB PB_CC_FILES "${PROTO_SRC_DIR}/*.pb.cc")
 
@@ -28,6 +30,7 @@ DELETE_OLD_GRPC_PB("${PB_CC_FILES}")
 GENERATE_PROTOBUF_CPP(PROTO_SRCS PROTO_HDRS ${PROTO_SRC_DIR} ${protofiles})
 GENERATE_GRPC_CPP(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${protofiles})
 #PROTOBUF_GENERATE_CPP(PRO_SRC PRO_HDS EXPORT_MACRO DLL_EXPORT ${protofiles})
+link_directories(${PROJECT_BINARY_PATH}/lib)
 
 add_library(hello_world
             ${PROTO_SRCS}
@@ -49,6 +52,7 @@ foreach(_target
         greeter_async_server)
     add_executable(${_target} "${_target}.cc")
     target_link_libraries(${_target}
+            -lPLog
             hello_world
             ${_REFLECTION}
             ${_GRPC_GRPCPP}
