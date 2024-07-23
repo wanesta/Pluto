@@ -16,6 +16,7 @@ set(GRPC_SRC_PATH /home/gaosm/Downloads/software/grpc)
 
 ADD_SUBDIRECTORY(model model)
 ADD_SUBDIRECTORY(utils utils)
+ADD_SUBDIRECTORY(frame frame)
 ADD_SUBDIRECTORY(server server)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
