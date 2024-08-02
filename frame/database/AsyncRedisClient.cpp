@@ -70,6 +70,22 @@ void AsyncRedisClient::connect(const std::string& host, int port, const std::str
     redisAsyncCommand(conn, authCallback, nullptr, "AUTH %s %s", user.c_str(), password.c_str());
 }
 
+void AsyncRedisClient::connect(const std::string& host, int port, const std::string& user, const std::string& password, const std::string& dbname) {
+    this->conn = redisAsyncConnect(host.c_str(), port);
+    if (conn->err) {
+        //std::cerr << "Redis connection failed: " << conn->errstr << std::endl;
+        Log.Error("Redis connection failed %s",conn->errstr);
+        redisAsyncDisconnect(conn);
+        conn = nullptr;
+        return;
+    }
+
+    redisLibeventAttach(conn, base);
+    redisAsyncSetConnectCallback(conn, connectCallback);
+    redisAsyncSetDisconnectCallback(conn, disconnectCallback);
+    redisAsyncCommand(conn, authCallback, nullptr, "AUTH %s %s", user.c_str(), password.c_str());
+}
+
 void AsyncRedisClient::write(const std::string& key, const std::string& value) {
     threads.emplace_back([this, key, value]() {
         std::lock_guard<std::mutex> lock(mtx);

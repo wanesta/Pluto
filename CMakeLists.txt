@@ -3,6 +3,7 @@ cmake_policy(SET CMP0077 NEW)
 project(Pluto)
 
 set(CMAKE_CXX_STANDARD 14)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -ftemplate-depth=100")
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 

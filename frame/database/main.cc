@@ -100,13 +100,13 @@ int test2(){
     }
     mysqlClient.run();
 
-    // Redis Client
-//        AsyncRedisClient redisClient;
-//        redisClient.connect("127.0.0.1", 6379, "default", "redis_password");
-//        redisClient.write("key111111", "redis_value1");
-//        redisClient.write("key222222", "redis_value2");
-//        redisClient.read("key111111");
-//        redisClient.run();
+    //Redis Client
+    AsyncRedisClient redisClient;
+    redisClient.connect("127.0.0.1", 6379, "default", "redis_password");
+    redisClient.write("key111111", "redis_value1");
+    redisClient.write("key222222", "redis_value2");
+    redisClient.read("key111111");
+    redisClient.run();
     return 0;
 }
 int main() {

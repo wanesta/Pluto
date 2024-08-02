@@ -14,8 +14,8 @@ set(protofiles
         ${PROJECT_ROOT_PATH}/proto/resource_handle.proto
         ${PROJECT_ROOT_PATH}/proto/tensor.proto
         ${PROJECT_ROOT_PATH}/proto/tensor_shape.proto
-        ${PROJECT_ROOT_PATH}/proto/types.proto
-    )
+        ${PROJECT_ROOT_PATH}/proto/types.proto)
+
 set(PROTO_SRC_DIR ${PROJECT_ROOT_PATH}/proto-src)
 file(MAKE_DIRECTORY ${PROTO_SRC_DIR})
 include_directories(${PROTO_SRC_DIR})
@@ -24,8 +24,15 @@ include_directories(${PROJECT_ROOT_PATH}/utils/plog)
 file(GLOB PB_H_FILES "${PROTO_SRC_DIR}/*.pb.h")
 file(GLOB PB_CC_FILES "${PROTO_SRC_DIR}/*.pb.cc")
 
+# 删除原始生成的  pb.h
+#               pb.cc
+#               grpc.pb.h
+#               grpc.pb.cc
+#
 DELETE_OLD_GRPC_PB("${PB_H_FILES}")
 DELETE_OLD_GRPC_PB("${PB_CC_FILES}")
+
+# 生成 pb.h  pb.cc  grpc.pb.h   grpc.pb.cc
 
 GENERATE_PROTOBUF_CPP(PROTO_SRCS PROTO_HDRS ${PROTO_SRC_DIR} ${protofiles})
 GENERATE_GRPC_CPP(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${protofiles})

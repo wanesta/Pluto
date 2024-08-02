@@ -15,6 +15,7 @@ public:
     AsyncRedisClient();
     ~AsyncRedisClient();
     void connect(const std::string& host, int port, const std::string& user, const std::string& password) override;
+    void connect(const std::string& host, int port, const std::string& user, const std::string& password, const std::string& dbname) override;
     void write(const std::string& key, const std::string& value) override;
     void read(const std::string& key) override;
     void run() override;
