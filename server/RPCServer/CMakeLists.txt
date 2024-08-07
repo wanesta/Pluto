@@ -11,6 +11,7 @@ set(protofiles
         ${PROJECT_ROOT_PATH}/proto/helloworld.proto
         ${PROJECT_ROOT_PATH}/proto/model.proto
         ${PROJECT_ROOT_PATH}/proto/predict.proto
+        ${PROJECT_ROOT_PATH}/proto/pred.proto
         ${PROJECT_ROOT_PATH}/proto/resource_handle.proto
         ${PROJECT_ROOT_PATH}/proto/tensor.proto
         ${PROJECT_ROOT_PATH}/proto/tensor_shape.proto
@@ -39,29 +40,54 @@ GENERATE_GRPC_CPP(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${protofiles})
 #PROTOBUF_GENERATE_CPP(PRO_SRC PRO_HDS EXPORT_MACRO DLL_EXPORT ${protofiles})
 link_directories(${PROJECT_BINARY_PATH}/lib)
 
-add_library(hello_world
-            ${PROTO_SRCS}
-            ${PROTO_HDRS}
-            ${PRO_SRC}
-            ${PRO_HDS}
-            ${GRPC_SRCS}
-            ${GRPC_HDRS})
 
-target_link_libraries(hello_world
+add_library(pred
+        ${PROTO_SRCS}
+        ${PROTO_HDRS}
+        ${PRO_SRC}
+        ${PRO_HDS}
+        ${GRPC_SRCS}
+        ${GRPC_HDRS})
+
+target_link_libraries(pred
         ${_GRPC_GRPCPP_REFLECTION}
         ${_GRPC_GRPCPP}
         ${_PROTOBUF_LIBPROTOBUF}
         ${PROTOBUF_LIBRARIES})
 
-foreach(_target
-        greeter_client greeter_server
-        greeter_async_client greeter_async_client2
-        greeter_async_server)
+foreach(_target test_tf_cli)
     add_executable(${_target} "${_target}.cc")
     target_link_libraries(${_target}
             -lPLog
-            hello_world
+            pred
             ${_REFLECTION}
             ${_GRPC_GRPCPP}
             ${_PROTOBUF_LIBPROTOBUF})
 endforeach()
+
+#add_library(hello_world
+#            ${PROTO_SRCS}
+#            ${PROTO_HDRS}
+#            ${PRO_SRC}
+#            ${PRO_HDS}
+#            ${GRPC_SRCS}
+#            ${GRPC_HDRS})
+#
+#target_link_libraries(hello_world
+#        ${_GRPC_GRPCPP_REFLECTION}
+#        ${_GRPC_GRPCPP}
+#        ${_PROTOBUF_LIBPROTOBUF}
+#        ${PROTOBUF_LIBRARIES})
+#
+#foreach(_target
+#        greeter_client greeter_server
+#        greeter_async_client greeter_async_client2
+#        greeter_async_server)
+#    add_executable(${_target} "${_target}.cc")
+#    target_link_libraries(${_target}
+#            -lPLog
+#            hello_world
+#            ${_REFLECTION}
+#            ${_GRPC_GRPCPP}
+#            ${_PROTOBUF_LIBPROTOBUF})
+#endforeach()

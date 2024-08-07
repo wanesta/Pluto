@@ -9,5 +9,5 @@ include_directories(${HIREDIS_INCLUDE_DIRS} ${LIBEVENT_INCLUDE_DIRS})
 link_directories(${HIREDIS_LIBRARY_DIRS} ${LIBEVENT_LIBRARY_DIRS})
 link_directories(${PROJECT_BINARY_PATH}/lib)
 
-ADD_EXECUTABLE(RedisAsyncExample main.cc AsyncRedisClient.cpp AsyncMySQLClient.cpp)
+ADD_EXECUTABLE(RedisAsyncExample main.cc AsyncRedisClient.cpp AsyncMySQLClient.cpp test_1.hpp)
 target_link_libraries(RedisAsyncExample ${HIREDIS_LIBRARIES} ${LIBEVENT_LIBRARIES} pthread -lPLog mysqlclient)

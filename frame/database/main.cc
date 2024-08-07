@@ -8,84 +8,9 @@
 #include <mutex>
 #include "AsyncMySQLClient.h"
 #include "AsyncRedisClient.h"
-std::mutex mtx;
-
-void connectCallback(const redisAsyncContext *c, int status) {
-    if (status != REDIS_OK) {
-        std::cerr << "Error: " << c->errstr << std::endl;
-        return;
-    }
-    std::cout << "Connected to Redis" << std::endl;
-}
-
-void disconnectCallback(const redisAsyncContext *c, int status) {
-    if (status != REDIS_OK) {
-        std::cerr << "Error: " << c->errstr << std::endl;
-        return;
-    }
-    std::cout << "Disconnected from Redis" << std::endl;
-}
-
-void getCallback(redisAsyncContext *c, void *r, void *privdata) {
-    redisReply *reply = static_cast<redisReply *>(r);
-    if (reply == nullptr) return;
-
-    std::cout << "GET " << static_cast<const char*>(privdata) << ": " << reply->str << std::endl;
-    redisAsyncDisconnect(c);
-}
-
-void writeToRedis(redisAsyncContext *c, const std::string &key, const std::string &value) {
-    std::lock_guard<std::mutex> lock(mtx);
-    redisAsyncCommand(c, nullptr, nullptr, "SET %s %s", key.c_str(), value.c_str());
-}
-
-void readFromRedis(redisAsyncContext *c, const std::string &key) {
-    std::lock_guard<std::mutex> lock(mtx);
-    redisAsyncCommand(c, getCallback, (void *)key.c_str(), "GET %s", key.c_str());
-}
-
-void runEventLoop(struct event_base *base) {
-    event_base_dispatch(base);
-}
-
-int test1(){
-    struct event_base *base = event_base_new();
-    if (!base) {
-        std::cerr << "Could not initialize libevent!" << std::endl;
-        return 1;
-    }
-
-    redisAsyncContext *c = redisAsyncConnect("127.0.0.1", 6379);
-    if (c->err) {
-        std::cerr << "Error: " << c->errstr << std::endl;
-        return 1;
-    }
-
-    redisLibeventAttach(c, base);
-    redisAsyncSetConnectCallback(c, connectCallback);
-    redisAsyncSetDisconnectCallback(c, disconnectCallback);
-
-    std::vector<std::thread> threads;
-
-    // Write to Redis asynchronously
-    for (int i = 0; i < 5; ++i) {
-        threads.emplace_back(writeToRedis, c, "key" + std::to_string(i), "value" + std::to_string(i));
-    }
-
-    // Read from Redis asynchronously
-    for (int i = 0; i < 5; ++i) {
-        threads.emplace_back(readFromRedis, c, "key" + std::to_string(i));
-    }
-
-    std::thread eventThread(runEventLoop, base);
-
-    for (auto &th : threads) {
-        th.join();
-    }
-
-    eventThread.join();
-    event_base_free(base);
-}
+#include "test_1.hpp"
+#include <chrono>
+#include <iomanip>
 
 int test2(){
     AsyncMySQLClient mysqlClient;
@@ -109,8 +34,39 @@ int test2(){
     redisClient.run();
     return 0;
 }
+
+void test_mpl(){
+    //std::cout << "Total size of types in type_list: " << total_size::value << std::endl;
+
+    //boost::mpl::for_each<sequence>(print_value());
+    //std::cout << "Sum of integers from 1 to 500: " << sum::value << std::endl;
+}
+
+long int example_func(long int n) {
+
+    if (n == 1) {
+        return 1;
+    } else {
+        return n + example_func(n - 1);
+    }
+}
+
+
 int main() {
-    test2();
-    //test1();
+    //test_mpl();
+    std::cout << std::fixed;
+    std::cout << std::setprecision(14);
+    auto start = std::chrono::high_resolution_clock::now();
+    const static long int f = 600;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Execution time: " << duration.count() << " seconds" << " result : " << Sum<f>::value << std::endl;
+    auto start2 = std::chrono::high_resolution_clock::now();
+
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration2 = end2 - start2;
+    std::cout << "Execution time: " << duration2.count() << " seconds" << " result : " << example_func(f) << std::endl;
+
     return 0;
 }

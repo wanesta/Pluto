@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tensorflow.serving;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "tensor.proto";
+import "tensor_shape.proto";
+import "types.proto";
+
+// Predict request message.
+message PredictRequest {
+  ModelSpec model_spec = 1;
+  map<string, TensorProto> inputs = 2;
+}
+
+// Predict response message.
+message PredictResponse {
+  map<string, TensorProto> outputs = 1;
+}
+
+// Model specification message.
+message ModelSpec {
+  string name = 1;
+  string signature_name = 2;
+  google.protobuf.Any version = 3;
+}
+
+// Service definition for prediction.
+service PredictionService {
+  rpc Predict(PredictRequest) returns (PredictResponse);
+}
